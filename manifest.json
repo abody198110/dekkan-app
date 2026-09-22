@@ -1,0 +1,34 @@
+{
+  "name": "الحارة — سوق بيع وشراء المستعمل",
+  "short_name": "الحارة",
+  "description": "سوق لبيع وشراء الأغراض المستعملة في سوريا",
+  "start_url": "./index.html",
+  "scope": "./",
+  "id": "/dekkan-app/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FAF6EF",
+  "theme_color": "#1F5D4E",
+  "lang": "ar",
+  "dir": "rtl",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
