@@ -12,6 +12,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
 
+<!-- ============================================================
+     Firebase — عبّي بيانات مشروعك هون (من إعدادات Firebase Console)
+     شوف ملف التعليمات "دليل_النشر.md" لمعرفة كيف تجيبها.
+     ============================================================ -->
 <script>
   window.FIREBASE_CONFIG = {
     apiKey: "AIzaSyCtX8ftr4bB8H-Hu6Ypd_ozyvtvxDVqLIk",
@@ -74,8 +78,6 @@
     color:var(--ink);
     font-family:'Tajawal', 'Segoe UI', Tahoma, sans-serif;
     min-height:100vh;
-    display:flex;
-    flex-direction:column;
     -webkit-font-smoothing:antialiased;
   }
   h1,h2,h3,.brand,.price{font-family:'Cairo','Tajawal',sans-serif}
@@ -84,7 +86,7 @@
   input,select,textarea{font-family:inherit}
   :focus-visible{outline:2px solid var(--primary);outline-offset:2px}
 
-  .wrap{max-width:1100px;margin:0 auto;padding:0 16px;width:100%}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 16px}
 
   /* header */
   header{
@@ -141,7 +143,7 @@
   }
 
   /* grid */
-  main{padding:6px 0 40px;flex:1}
+  main{padding:6px 0 60px}
   .grid{
     display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:12px;
   }
@@ -169,22 +171,6 @@
   .empty .e-icon{font-size:44px;margin-bottom:10px}
   .empty h3{margin:0 0 6px;color:var(--ink);font-size:17px}
   .empty p{margin:0 0 18px;font-size:14px}
-
-  /* footer */
-  footer{
-    border-top:1px solid var(--line);
-    background:var(--surface-2);
-    padding:18px 16px;
-    text-align:center;
-    font-size:13px;
-    color:var(--ink-muted);
-    margin-top:auto;
-  }
-  footer .designer-name{
-    color:var(--primary-ink);
-    font-family:'Cairo',sans-serif;
-    font-weight:700;
-  }
 
   /* modal / drawer */
   .overlay{
@@ -271,24 +257,8 @@
   }
   .action-btn.whatsapp{background:#25D366;color:#fff;border-color:#25D366}
   .action-btn.map{background:var(--primary);color:#fff;border-color:var(--primary)}
-
-  /* owner controls */
-  .owner-box{
-    margin-top:18px;padding-top:14px;border-top:1px dashed var(--line);
-  }
-  .owner-label{font-size:12px;color:var(--ink-muted);margin-bottom:8px;font-weight:700}
-  .owner-edit{display:flex;gap:10px;margin-bottom:10px}
-  .owner-edit input{
-    flex:1;min-width:0;background:var(--bg);border:1px solid var(--line);border-radius:8px;
-    padding:10px 12px;font-size:14.5px;color:var(--ink);
-  }
-  .owner-btn{
-    padding:10px 14px;border-radius:9px;font-size:13.5px;font-weight:700;
-    border:1px solid var(--line);display:flex;align-items:center;justify-content:center;gap:6px;
-  }
-  .owner-btn.save-btn{background:var(--primary);color:#fff;border-color:var(--primary);flex-shrink:0}
-  .owner-btn.del-btn{background:transparent;color:var(--danger);border-color:var(--danger);width:100%}
-  .owner-btn:disabled{opacity:.55}
+  .delete-row{margin-top:16px;text-align:center}
+  .delete-link{background:none;border:none;color:var(--danger);font-size:12.5px;text-decoration:underline}
 
   .toast{
     position:fixed;bottom:18px;left:50%;transform:translateX(-50%);
@@ -334,10 +304,6 @@
     <p>كن أول واحد ينشر غرض للبيع بهالحارة</p>
   </div>
 </main>
-
-<footer>
-  تصميم وتطوير: <span class="designer-name">عبدالله صالح المهاوش</span>
-</footer>
 
 <!-- Add listing sheet -->
 <div class="overlay" id="addOverlay">
@@ -573,7 +539,7 @@
       '<div class="sheet-head"><h2>تفاصيل الإعلان</h2><button class="icon-btn" id="closeDetailBtn">✕</button></div>' +
       '<div class="detail-img">' + (src ? '<img src="'+esc(src)+'" alt="">' : '<span class="ph">'+cat.icon+'</span>') + '</div>' +
       '<div class="detail-body">' +
-        '<div class="detail-price" id="detailPrice">' + formatPrice(it.price) + '</div>' +
+        '<div class="detail-price">' + formatPrice(it.price) + '</div>' +
         '<h3 class="detail-title">' + esc(it.title) + '</h3>' +
         '<div class="detail-meta">' +
           '<span>' + cat.icon + ' ' + cat.label + '</span>' +
@@ -585,23 +551,12 @@
           (waLink ? '<a class="action-btn whatsapp" href="'+waLink+'" target="_blank" rel="noopener">💬 تواصل واتساب</a>' : '') +
           (mapLink ? '<a class="action-btn map" href="'+mapLink+'" target="_blank" rel="noopener">🗺️ شوف الموقع عالخارطة</a>' : '') +
         '</div>' +
-        (mine ?
-          '<div class="owner-box">' +
-            '<div class="owner-label">إدارة إعلانك</div>' +
-            '<div class="owner-edit">' +
-              '<input type="number" id="editPrice" min="0" value="' + (Number(it.price)||0) + '" placeholder="السعر الجديد">' +
-              '<button class="owner-btn save-btn" id="savePriceBtn">💾 حفظ السعر</button>' +
-            '</div>' +
-            '<button class="owner-btn del-btn" id="deleteBtn">🗑️ حذف الإعلان</button>' +
-          '</div>' : '') +
+        (mine ? '<div class="delete-row"><button class="delete-link" id="deleteBtn">حذف الإعلان</button></div>' : '') +
       '</div>';
 
     $("closeDetailBtn").addEventListener("click", closeDetail);
     if(mine){
-      $("savePriceBtn").addEventListener("click", function(){ updatePrice(it.id); });
-      $("deleteBtn").addEventListener("click", function(){
-        if(window.confirm("متأكد بدك تحذف هالإعلان؟ ما فيك ترجعه.")){ deleteListing(it.id); }
-      });
+      $("deleteBtn").addEventListener("click", function(){ deleteListing(it.id); });
     }
     $("detailOverlay").classList.add("open");
   }
@@ -613,41 +568,15 @@
   });
   $("detailOverlay").addEventListener("click", function(e){ if(e.target === $("detailOverlay")) closeDetail(); });
 
-  function updatePrice(id){
-    var val = parseFloat($("editPrice").value);
-    if(!val || val < 0){ showToast("اكتب سعر صحيح"); return; }
-    var btn = $("savePriceBtn");
-    btn.disabled = true;
-
-    function done(){
-      var it = state.listings.find(function(x){ return x.id === id; });
-      if(it) it.price = val;
-      $("detailPrice").textContent = formatPrice(val);
-      btn.disabled = false;
-      render();
-      showToast("تم تعديل السعر");
-    }
-
-    if(state.dbReady){
-      firebase.firestore().collection("listings").doc(id).update({price: val})
-        .then(done)
-        .catch(function(){ btn.disabled = false; showToast("ما قدرنا نعدّل السعر"); });
-    } else {
-      done();
-    }
-  }
-
   function deleteListing(id){
     if(state.dbReady){
-      firebase.firestore().collection("listings").doc(id).delete()
-        .then(function(){ showToast("تم حذف الإعلان"); })
-        .catch(function(){ showToast("ما قدرنا نحذف الإعلان"); });
+      firebase.firestore().collection("listings").doc(id).delete().catch(function(){ showToast("ما قدرنا نحذف الإعلان"); });
     } else {
       state.listings = state.listings.filter(function(x){ return x.id !== id; });
       render();
-      showToast("تم حذف الإعلان");
     }
     closeDetail();
+    showToast("تم حذف الإعلان");
   }
 
   // ---------- add listing sheet ----------
@@ -800,7 +729,7 @@
     }
   });
 
-  // ---------- local anonymous "owner" id (so a person can manage their own posts) ----------
+  // ---------- local anonymous "owner" id (so a person can delete their own posts) ----------
   function getOrCreateOwnerId(){
     try{
       var id = localStorage.getItem("dekkan_owner_id");
